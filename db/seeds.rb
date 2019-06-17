@@ -1,12 +1,5 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-#
 Transaction.delete_all
+Rewards.delete_all
 User.delete_all
 User.create(
   [
@@ -17,8 +10,6 @@ User.create(
   ]
 )
 
-
-
 Transaction.create(
   [
     {id: 1, user_id: 1, sum: 250, country: 'Russia', created_at: Time.now, updated_at: Time.now },
@@ -26,11 +17,8 @@ Transaction.create(
   ]
 )
 
-# Rewards.delete_all
-#
-# Rewards.create(
-#   [
-#     {id: 1, user_id: 2, type: 'coffee', start_date: Time.now, end_date: Time.now + 7.day}
-#   ]
-#
-# )
+Rewards.create(
+  [
+    {id: 1, user_id: 2, type: 'coffee', start_date: Time.now, end_date: Time.now + 7.day}
+  ]
+)

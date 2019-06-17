@@ -60,6 +60,29 @@ class AnswerTest < ActiveSupport::TestCase
     assert_equal 'platinum', user3['status']
   end
 
+  test 'check user status for 2 periods' do
+    user1 = User.create({email: 'user1@gmail.com', password: '12345', dob: @dob, points: 900, last_year_points: 1500})
+    user2 = User.create({email: 'user2@gmail.com', password: '12345', dob: @dob, points: 5200, last_year_points: 500})
+    user1.reset_points
+    user2.reset_points
+    assert_equal 'gold', user1['status']
+    assert_equal 'platinum', user2['status']
+  end
 
+  test 'check airport reward' do
+    user = User.create({email: 'user@gmail.com', password: '12345'})
+    user.check_status(1500)
+    reward = user.rewards.first
+    assert_equal 'airport', reward['reward_type']
+  end
 
+  test 'check quarter reward' do
+    user = User.create({email: 'user@gmail.com', password: '12345', dob: @dob})
+    user.transactions.create({sum: 1000, country: 'Russia', created_at: Time.now - 2.month})
+    user.transactions.create({sum: 1100, country: 'Russia', created_at: Time.now - 1.month})
+    old_points = user['points']
+    user.add_quarter_reward
+    new_points = user['points']
+    assert_equal 100, new_points - old_points
+  end
 end

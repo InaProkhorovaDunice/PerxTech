@@ -46,11 +46,11 @@ class User < ActiveRecord::Base
   end
 
   def add_quarter_reward
-   start_day = Date.today - 3.month
-   end_day = Date.today - 1.day
-    if transactions.where(`created_at > #{start_day} AND created_at > #{end_day}`).sum('sum') > 2000
+   start_day = Time.now - 3.month
+   end_day = Time.now - 1.day
+    if transactions.where("created_at > ? and created_at < ?", start_day, end_day).sum('sum') > 2000
       new_points = points + 100
-      update(new_points)
+      update(points: new_points)
     end
   end
 
